@@ -1,0 +1,36 @@
+.findus-page { padding-top: 80px; }
+.findus-hero { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 60px 0 40px; margin-bottom: 48px; }
+.findus-hero h1 { font-size: clamp(2rem, 4vw, 3.5rem); margin-top: 8px; }
+.findus-hero p { color: var(--text-secondary); margin-top: 8px; }
+
+.findus-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 32px; align-items: start; margin-bottom: 48px; }
+
+.location-card { padding: 32px; margin-bottom: 16px; }
+.location-card h3 { font-size: 1.2rem; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+
+.location-details { display: flex; flex-direction: column; gap: 16px; margin-bottom: 28px; }
+.ld-row { display: flex; gap: 14px; align-items: flex-start; }
+.ld-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.ld-row strong { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+.ld-row p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+.ld-row a { color: var(--accent); text-decoration: none; }
+
+.directions-btn { width: 100%; justify-content: center; border-radius: 12px; }
+
+.landmarks-card { padding: 24px; }
+.landmarks-card h4 { font-size: 1rem; margin-bottom: 16px; }
+.landmarks-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.landmarks-list li { font-size: 14px; color: var(--text-secondary); padding-left: 4px; }
+
+.map-embed-wrap { padding: 8px; overflow: hidden; min-height: 420px; }
+
+.transport-section { margin-bottom: 80px; }
+.transport-section h3 { font-size: 1.4rem; margin-bottom: 24px; }
+.transport-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.transport-card { padding: 24px; text-align: center; }
+.t-icon { font-size: 32px; margin-bottom: 12px; }
+.transport-card h5 { font-size: 0.95rem; margin-bottom: 8px; }
+.transport-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+@media (max-width: 1024px) { .transport-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .findus-grid { grid-template-columns: 1fr; } .transport-grid { grid-template-columns: 1fr 1fr; } }

@@ -1,0 +1,26 @@
+.email-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 900;
+  width: 56px;
+  height: 56px;
+  background: #D4A855;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 20px rgba(212,168,85,0.4);
+  transition: all 0.3s;
+  animation: pulse 2s infinite;
+}
+.email-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 30px rgba(212,168,85,0.5);
+  animation: none;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 4px 20px rgba(212,168,85,0.4); }
+  50% { box-shadow: 0 4px 30px rgba(212,168,85,0.7); }
+}

@@ -1,0 +1,66 @@
+.checkout-page { padding: 120px 0 80px; min-height: 100vh; }
+.checkout-header { margin-bottom: 40px; }
+.checkout-header h1 { font-size: 2.5rem; margin-top: 8px; }
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.checkout-form, .order-summary {
+  padding: 32px;
+}
+
+.checkout-form h3, .order-summary h3 {
+  font-size: 1.2rem;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.form-group label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.checkout-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+
+.whatsapp-checkout-btn {
+  padding: 12px;
+  background: rgba(37,211,102,0.1);
+  border: 1px solid rgba(37,211,102,0.3);
+  border-radius: 12px;
+  color: #25d366;
+  font-size: 14px; font-weight: 500;
+  cursor: pointer; font-family: var(--font-body);
+  transition: background 0.2s;
+}
+.whatsapp-checkout-btn:hover { background: rgba(37,211,102,0.2); }
+
+.summary-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.summary-item { display: flex; justify-content: space-between; align-items: center; }
+.si-info { display: flex; align-items: center; gap: 10px; }
+.si-name { font-size: 14px; }
+.si-qty { font-size: 12px; color: var(--text-muted); background: var(--bg-secondary); padding: 2px 8px; border-radius: 50px; }
+.si-price { font-size: 14px; font-weight: 600; color: var(--accent); }
+
+.summary-total {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.summary-total span { font-size: 14px; color: var(--text-secondary); }
+.total-price { font-family: var(--font-display); font-size: 1.8rem; color: var(--accent); }
+
+.summary-note { background: var(--bg-secondary); border-radius: var(--radius); padding: 14px; }
+.summary-note p { font-size: 13px; color: var(--text-secondary); margin-bottom: 4px; }
+
+.success-box { max-width: 500px; margin: 80px auto; padding: 56px; text-align: center; }
+.success-icon { font-size: 56px; margin-bottom: 16px; }
+.success-box h2 { font-size: 2rem; margin-bottom: 12px; }
+.success-box p { color: var(--text-secondary); font-size: 15px; }
+
+@media (max-width: 768px) { .checkout-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
