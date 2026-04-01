@@ -65,5 +65,4 @@ hungry-platter/
     ├── middleware/
     └── config/
 
-## 📬 Contact
-Built with ❤️ by Akshitha — https://github.com/akshithasangam1759-dotcom
+
