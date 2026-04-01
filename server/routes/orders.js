@@ -4,7 +4,7 @@ const { auth, adminOnly } = require('../middleware/auth');
 const nodemailer = require('nodemailer');
 
 // Place order
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   const { customer_name, customer_email, customer_phone, items, total_amount, order_type, notes } = req.body;
   if (!customer_name || !items || !total_amount)
     return res.status(400).json({ message: 'Missing required fields' });
@@ -19,7 +19,6 @@ router.post('/', async (req, res) => {
     // Send confirmation email
     if (customer_email && process.env.EMAIL_USER && process.env.EMAIL_PASS) {
       try {
-        // Create transporter here so it always uses latest env vars
         const transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
@@ -67,7 +66,6 @@ router.post('/', async (req, res) => {
         console.log('✅ Order confirmation email sent to:', customer_email);
       } catch (mailErr) {
         console.error('❌ Email failed:', mailErr.message);
-        // Don't fail the order just because email failed
       }
     }
 
@@ -81,9 +79,16 @@ router.post('/', async (req, res) => {
 // Get user orders
 router.get('/my', auth, async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT * FROM orders WHERE user_id=? ORDER BY created_at DESC', [req.user.id]);
+    const [rows] = await db.query(
+      `SELECT * FROM orders 
+       WHERE user_id = ? 
+       OR (customer_email = ? AND customer_email != '')
+       ORDER BY created_at DESC`,
+      [req.user.id, req.user.email]
+    );
     res.json(rows);
   } catch (e) {
+    console.error('My orders error:', e.message);
     res.status(500).json({ message: 'Server error' });
   }
 });
