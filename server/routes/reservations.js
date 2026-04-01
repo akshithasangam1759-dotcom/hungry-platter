@@ -3,15 +3,12 @@ const db = require('../config/db');
 const { auth, adminOnly } = require('../middleware/auth');
 const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-});
-
 // Create reservation
 router.post('/', async (req, res) => {
   const { name, email, phone, date, time, guests, special_requests } = req.body;
-  if (!name || !phone || !date || !time || !guests) return res.status(400).json({ message: 'All fields required' });
+  if (!name || !phone || !date || !time || !guests)
+    return res.status(400).json({ message: 'All fields required' });
+
   try {
     const userId = req.user?.id || null;
     const [result] = await db.query(
@@ -19,26 +16,61 @@ router.post('/', async (req, res) => {
       [userId, name, email || '', phone, date, time, guests, special_requests || '']
     );
 
-    if (email && process.env.EMAIL_USER) {
+    if (email && process.env.EMAIL_USER && process.env.EMAIL_PASS) {
       try {
+        // Create transporter here so it always uses latest env vars
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+          }
+        });
+
         await transporter.sendMail({
-  from: process.env.EMAIL_USER,
-  to: [email, process.env.ADMIN_EMAIL],  // ← sends to customer AND restaurant
-  subject: '🍽️ Table Reserved - Hungry Platter',
-  html: `<h2>Table Reserved, ${name}!</h2>
-    <p>Your reservation details:</p>
-    <ul>
-      <li>Date: ${date}</li>
-      <li>Time: ${time}</li>
-      <li>Guests: ${guests}</li>
-    </ul>
-    <p>We look forward to welcoming you at Hungry Platter, Bachupally!</p>`
-});
-      } catch (mailErr) { console.log('Email failed:', mailErr.message); }
+          from: `"Hungry Platter 🍽️" <${process.env.EMAIL_USER}>`,
+          to: [email, process.env.ADMIN_EMAIL].filter(Boolean),
+          subject: '🍽️ Table Reserved - Hungry Platter',
+          html: `
+            <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;background:#1a1a1a;color:#fff;padding:30px;border-radius:10px">
+              <h1 style="color:#f5a623;text-align:center">🍽️ Hungry Platter</h1>
+              <h2>Table Reserved, ${name}!</h2>
+              <p>Your reservation details:</p>
+              <table style="width:100%;border-collapse:collapse;margin:20px 0">
+                <tr style="border-bottom:1px solid #333">
+                  <td style="padding:10px;color:#aaa">📅 Date</td>
+                  <td style="padding:10px"><strong>${date}</strong></td>
+                </tr>
+                <tr style="border-bottom:1px solid #333">
+                  <td style="padding:10px;color:#aaa">⏰ Time</td>
+                  <td style="padding:10px"><strong>${time}</strong></td>
+                </tr>
+                <tr style="border-bottom:1px solid #333">
+                  <td style="padding:10px;color:#aaa">👥 Guests</td>
+                  <td style="padding:10px"><strong>${guests}</strong></td>
+                </tr>
+                ${special_requests ? `
+                <tr>
+                  <td style="padding:10px;color:#aaa">📝 Special Requests</td>
+                  <td style="padding:10px"><strong>${special_requests}</strong></td>
+                </tr>` : ''}
+              </table>
+              <p style="color:#aaa">Reservation held for <strong style="color:#fff">15 minutes</strong>. Please arrive on time!</p>
+              <hr style="border-color:#333;margin:20px 0"/>
+              <p style="color:#aaa;text-align:center">We look forward to welcoming you at Hungry Platter, Bachupally, Hyderabad! 🏠</p>
+            </div>
+          `
+        });
+
+        console.log('✅ Reservation email sent to:', email);
+      } catch (mailErr) {
+        console.error('❌ Reservation email failed:', mailErr.message);
+      }
     }
 
     res.json({ id: result.insertId, message: 'Reservation confirmed!' });
   } catch (e) {
+    console.error('Reservation error:', e.message);
     res.status(500).json({ message: 'Server error', error: e.message });
   }
 });
