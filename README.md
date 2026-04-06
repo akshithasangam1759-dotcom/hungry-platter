@@ -4,7 +4,6 @@ A full-stack restaurant web app for online ordering, table reservations, and men
 
 ## 🌐 Live Demo
 - **Frontend:** https://hungry-platter.vercel.app
-- **Backend:** https://hungry-platter.onrender.com
 
 ## ✨ Features
 - 🔐 User authentication (register, login, JWT)
