@@ -3,7 +3,7 @@
 A full-stack restaurant web app for online ordering, table reservations, and menu browsing — built for Hungry Platter, Bachupally, Hyderabad.
 
 ## 🌐 Live Demo
-- **Frontend:** https://hungry-platter.vercel.app
+https://hungry-platter.vercel.app
 
 ## ✨ Features
 - 🔐 User authentication (register, login, JWT)
